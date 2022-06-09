@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class TransferService {
@@ -29,21 +30,23 @@ public class TransferService {
     public List<TransferDto> getAllTransferHistory() {
         List<TransferDto> transferDtos = new ArrayList<>();
 
-        List<Transfer> transfers = transferRepository.findAll();
+        Stream<Transfer> transfers = transferRepository.findAll().stream();
 
-        for (Transfer transfer : transfers) {
-            transferDtos.add(
-                    new TransferDto(
-                            transfer.getTransferId(),
-                            transfer.getFund(),
-                            transfer.getNote() == null ? "-" : transfer.getNote(),
-                            transfer.getDate(),
-                            transfer.getStatus(),
-                            transfer.getSenderUser().getUserId(),
-                            transfer.getRecipientUser().getUserId()
-                    )
-            );
-        }
+        transfers.forEach(
+                (transfer) -> {
+                    transferDtos.add(
+                            new TransferDto(
+                                    transfer.getTransferId(),
+                                    transfer.getFund(),
+                                    transfer.getNote() == null ? "-" : transfer.getNote(),
+                                    transfer.getDate(),
+                                    transfer.getStatus(),
+                                    transfer.getSenderUser().getUserId(),
+                                    transfer.getRecipientUser().getUserId()
+                            )
+                    );
+                }
+        );
 
         return transferDtos;
     }
@@ -51,21 +54,23 @@ public class TransferService {
     public List<TransferDto> getTransferHistoryBySenderUserId(String userId) {
         List<TransferDto> transferDtos = new ArrayList<>();
 
-        List<Transfer> transfers = transferRepository.getTransferHistoryBySenderUserId(userId);
+        Stream<Transfer> transfers = transferRepository.getTransferHistoryBySenderUserId(userId).stream();
 
-        for (Transfer transfer : transfers) {
-            transferDtos.add(
-                    new TransferDto(
-                            transfer.getTransferId(),
-                            transfer.getFund(),
-                            transfer.getNote() == null ? "-" : transfer.getNote(),
-                            transfer.getDate(),
-                            transfer.getStatus(),
-                            transfer.getSenderUser().getUserId(),
-                            transfer.getRecipientUser().getUserId()
-                    )
-            );
-        }
+        transfers.forEach(
+                (transfer) -> {
+                    transferDtos.add(
+                            new TransferDto(
+                                    transfer.getTransferId(),
+                                    transfer.getFund(),
+                                    transfer.getNote() == null ? "-" : transfer.getNote(),
+                                    transfer.getDate(),
+                                    transfer.getStatus(),
+                                    transfer.getSenderUser().getUserId(),
+                                    transfer.getRecipientUser().getUserId()
+                            )
+                    );
+                }
+        );
 
         return transferDtos;
     }
@@ -73,21 +78,23 @@ public class TransferService {
     public List<TransferDto> getTransferHistoryByRecipientUserId(String userId) {
         List<TransferDto> transferDtos = new ArrayList<>();
 
-        List<Transfer> transfers = transferRepository.getTransferHistoryByRecipientUserId(userId);
+        Stream<Transfer> transfers = transferRepository.getTransferHistoryByRecipientUserId(userId).stream();
 
-        for (Transfer transfer : transfers) {
-            transferDtos.add(
-                    new TransferDto(
-                            transfer.getTransferId(),
-                            transfer.getFund(),
-                            transfer.getNote() == null ? "-" : transfer.getNote(),
-                            transfer.getDate(),
-                            transfer.getStatus(),
-                            transfer.getSenderUser().getUserId(),
-                            transfer.getRecipientUser().getUserId()
-                    )
-            );
-        }
+        transfers.forEach(
+                (transfer) -> {
+                    transferDtos.add(
+                            new TransferDto(
+                                    transfer.getTransferId(),
+                                    transfer.getFund(),
+                                    transfer.getNote() == null ? "-" : transfer.getNote(),
+                                    transfer.getDate(),
+                                    transfer.getStatus(),
+                                    transfer.getSenderUser().getUserId(),
+                                    transfer.getRecipientUser().getUserId()
+                            )
+                    );
+                }
+        );
 
         return transferDtos;
     }

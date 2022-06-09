@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class WithdrawService {
@@ -29,19 +30,21 @@ public class WithdrawService {
     public List<WithdrawDto> getAllWithdrawHistory() {
         List<WithdrawDto> withdrawDtos = new ArrayList<>();
 
-        List<Withdraw> withdraws = withdrawRepository.findAll();
+        Stream<Withdraw> withdraws = withdrawRepository.findAll().stream();
 
-        for (Withdraw withdraw : withdraws) {
-            withdrawDtos.add(
-                    new WithdrawDto(
-                            withdraw.getWithdrawId(),
-                            withdraw.getFund(),
-                            withdraw.getDate(),
-                            withdraw.getStatus(),
-                            withdraw.getUser().getAccountNumber()
-                    )
-            );
-        }
+        withdraws.forEach(
+                (withdraw) -> {
+                    withdrawDtos.add(
+                            new WithdrawDto(
+                                    withdraw.getWithdrawId(),
+                                    withdraw.getFund(),
+                                    withdraw.getDate(),
+                                    withdraw.getStatus(),
+                                    withdraw.getUser().getAccountNumber()
+                            )
+                    );
+                }
+        );
 
         return withdrawDtos;
     }
@@ -49,19 +52,21 @@ public class WithdrawService {
     public List<WithdrawDto> getWithdrawHistoryByUserId(String userId) {
         List<WithdrawDto> withdrawDtos = new ArrayList<>();
 
-        List<Withdraw> withdraws = withdrawRepository.getWithdrawHistoryByUserId(userId);
+        Stream<Withdraw> withdraws = withdrawRepository.getWithdrawHistoryByUserId(userId).stream();
 
-        for (Withdraw withdraw : withdraws) {
-            withdrawDtos.add(
-                    new WithdrawDto(
-                            withdraw.getWithdrawId(),
-                            withdraw.getFund(),
-                            withdraw.getDate(),
-                            withdraw.getStatus(),
-                            withdraw.getUser().getAccountNumber()
-                    )
-            );
-        }
+        withdraws.forEach(
+                (withdraw) -> {
+                    withdrawDtos.add(
+                            new WithdrawDto(
+                                    withdraw.getWithdrawId(),
+                                    withdraw.getFund(),
+                                    withdraw.getDate(),
+                                    withdraw.getStatus(),
+                                    withdraw.getUser().getAccountNumber()
+                            )
+                    );
+                }
+        );
 
         return withdrawDtos;
     }

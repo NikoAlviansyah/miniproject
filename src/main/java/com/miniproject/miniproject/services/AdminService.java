@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class AdminService {
@@ -28,28 +29,30 @@ public class AdminService {
     public List<AdminDto> getAllAdmin() {
         List<AdminDto> adminDtos = new ArrayList<>();
 
-        List<User> admins = userRepository.getAllAdminOrCustomer("ADMIN", true);
+        Stream<User> admins = userRepository.getAllAdminOrCustomer("ADMIN", true).stream();
 
-        for (User admin : admins) {
-            adminDtos.add(
-                    new AdminDto(
-                            admin.getUserId(),
-                            admin.getRole(),
-                            admin.getFirstName(),
-                            admin.getLastName(),
-                            admin.getBirthDate(),
-                            admin.getGender(),
-                            admin.getPhone(),
-                            admin.getEmail(),
-                            admin.getAddress(),
-                            admin.getSubDistrict(),
-                            admin.getDistrict(),
-                            admin.getCity(),
-                            admin.getProvince(),
-                            admin.getZipCode()
-                    )
-            );
-        }
+        admins.forEach(
+                (admin) -> {
+                    adminDtos.add(
+                            new AdminDto(
+                                    admin.getUserId(),
+                                    admin.getRole(),
+                                    admin.getFirstName(),
+                                    admin.getLastName(),
+                                    admin.getBirthDate(),
+                                    admin.getGender(),
+                                    admin.getPhone(),
+                                    admin.getEmail(),
+                                    admin.getAddress(),
+                                    admin.getSubDistrict(),
+                                    admin.getDistrict(),
+                                    admin.getCity(),
+                                    admin.getProvince(),
+                                    admin.getZipCode()
+                            )
+                    );
+                }
+        );
 
         return adminDtos;
     }

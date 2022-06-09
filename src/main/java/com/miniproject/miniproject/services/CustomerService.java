@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class CustomerService {
@@ -28,30 +29,32 @@ public class CustomerService {
     public List<CustomerDto> getAllCustomer() {
         List<CustomerDto> customerDtos = new ArrayList<>();
 
-        List<User> customers = userRepository.getAllAdminOrCustomer("CUSTOMER", true);
+        Stream<User> customers = userRepository.getAllAdminOrCustomer("CUSTOMER", true).stream();
 
-        for (User customer : customers) {
-            customerDtos.add(
-                    new CustomerDto(
-                            customer.getUserId(),
-                            customer.getRole(),
-                            customer.getAccountNumber(),
-                            customer.getFund() == null? 0 : customer.getFund(),
-                            customer.getFirstName(),
-                            customer.getLastName(),
-                            customer.getBirthDate(),
-                            customer.getGender(),
-                            customer.getPhone(),
-                            customer.getEmail(),
-                            customer.getAddress(),
-                            customer.getSubDistrict(),
-                            customer.getDistrict(),
-                            customer.getCity(),
-                            customer.getProvince(),
-                            customer.getZipCode()
-                    )
-            );
-        }
+        customers.forEach(
+                (customer) -> {
+                    customerDtos.add(
+                            new CustomerDto(
+                                    customer.getUserId(),
+                                    customer.getRole(),
+                                    customer.getAccountNumber(),
+                                    customer.getFund() == null ? 0 : customer.getFund(),
+                                    customer.getFirstName(),
+                                    customer.getLastName(),
+                                    customer.getBirthDate(),
+                                    customer.getGender(),
+                                    customer.getPhone(),
+                                    customer.getEmail(),
+                                    customer.getAddress(),
+                                    customer.getSubDistrict(),
+                                    customer.getDistrict(),
+                                    customer.getCity(),
+                                    customer.getProvince(),
+                                    customer.getZipCode()
+                            )
+                    );
+                }
+        );
 
         return customerDtos;
     }

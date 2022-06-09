@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class DepositService {
@@ -29,19 +30,21 @@ public class DepositService {
     public List<DepositDto> getAllDepositHistory() {
         List<DepositDto> depositDtos = new ArrayList<>();
 
-        List<Deposit> deposits = depositRepository.findAll();
+        Stream<Deposit> deposits = depositRepository.findAll().stream();
 
-        for (Deposit deposit : deposits) {
-            depositDtos.add(
-                    new DepositDto(
-                            deposit.getDepositId(),
-                            deposit.getFund(),
-                            deposit.getDate(),
-                            "Successfully",
-                            deposit.getUser().getAccountNumber()
-                    )
-            );
-        }
+        deposits.forEach(
+                (deposit) -> {
+                    depositDtos.add(
+                            new DepositDto(
+                                    deposit.getDepositId(),
+                                    deposit.getFund(),
+                                    deposit.getDate(),
+                                    "Successfully",
+                                    deposit.getUser().getAccountNumber()
+                            )
+                    );
+                }
+        );
 
         return depositDtos;
     }
@@ -49,19 +52,21 @@ public class DepositService {
     public List<DepositDto> getDepositHistoryByUserId(String userId) {
         List<DepositDto> depositDtos = new ArrayList<>();
 
-        List<Deposit> deposits = depositRepository.getDepositHistoryByUserId(userId);
+        Stream<Deposit> deposits = depositRepository.getDepositHistoryByUserId(userId).stream();
 
-        for (Deposit deposit : deposits) {
-            depositDtos.add(
-                    new DepositDto(
-                            deposit.getDepositId(),
-                            deposit.getFund(),
-                            deposit.getDate(),
-                            "Successfully",
-                            deposit.getUser().getAccountNumber()
-                    )
-            );
-        }
+        deposits.forEach(
+                (deposit) -> {
+                    depositDtos.add(
+                            new DepositDto(
+                                    deposit.getDepositId(),
+                                    deposit.getFund(),
+                                    deposit.getDate(),
+                                    "Successfully",
+                                    deposit.getUser().getAccountNumber()
+                            )
+                    );
+                }
+        );
 
         return depositDtos;
     }
