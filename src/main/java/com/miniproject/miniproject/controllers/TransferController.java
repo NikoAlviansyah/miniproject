@@ -32,6 +32,26 @@ public class TransferController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("sender/{userId}")
+    public ResponseEntity<RestResponse<List<TransferDto>>> getTransferHistoryBySenderUserId(@PathVariable String userId) {
+        return new ResponseEntity<>(
+                new RestResponse<>(
+                        service.getTransferHistoryBySenderUserId(userId),
+                        "Successfully.",
+                        "200"),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("recipient/{userId}")
+    public ResponseEntity<RestResponse<List<TransferDto>>> getTransferHistoryByRecipientUserId(@PathVariable String userId) {
+        return new ResponseEntity<>(
+                new RestResponse<>(
+                        service.getTransferHistoryByRecipientUserId(userId),
+                        "Successfully.",
+                        "200"),
+                HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<RestResponse<TransferDto>> createDeposit(@RequestBody CreateTransferDto newTransfer) {
         TransferDto transferDto = service.createTransfer(newTransfer);

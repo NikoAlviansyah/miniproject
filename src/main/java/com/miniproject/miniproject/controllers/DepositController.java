@@ -32,6 +32,16 @@ public class DepositController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("{userId}")
+    public ResponseEntity<RestResponse<List<DepositDto>>> getDepositHistoryByUserId(@PathVariable String userId){
+        return new ResponseEntity<>(
+                new RestResponse<>(
+                        service.getDepositHistoryByUserId(userId),
+                        "Successfully.",
+                        "200"),
+                HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<RestResponse<DepositDto>> createDeposit(@RequestBody CreateDepositDto newDeposit){
         DepositDto depositDto = service.createDeposit(newDeposit);

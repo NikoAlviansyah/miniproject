@@ -27,12 +27,12 @@ public class WithdrawService {
     }
 
     public List<WithdrawDto> getAllWithdrawHistory() {
-        List<WithdrawDto> withdrawDtoList = new ArrayList<>();
+        List<WithdrawDto> withdrawDtos = new ArrayList<>();
 
-        List<Withdraw> withdrawList = withdrawRepository.findAll();
+        List<Withdraw> withdraws = withdrawRepository.findAll();
 
-        for (Withdraw withdraw : withdrawList) {
-            withdrawDtoList.add(
+        for (Withdraw withdraw : withdraws) {
+            withdrawDtos.add(
                     new WithdrawDto(
                             withdraw.getWithdrawId(),
                             withdraw.getFund(),
@@ -43,21 +43,41 @@ public class WithdrawService {
             );
         }
 
-        return withdrawDtoList;
+        return withdrawDtos;
+    }
+
+    public List<WithdrawDto> getWithdrawHistoryByUserId(String userId) {
+        List<WithdrawDto> withdrawDtos = new ArrayList<>();
+
+        List<Withdraw> withdraws = withdrawRepository.getWithdrawHistoryByUserId(userId);
+
+        for (Withdraw withdraw : withdraws) {
+            withdrawDtos.add(
+                    new WithdrawDto(
+                            withdraw.getWithdrawId(),
+                            withdraw.getFund(),
+                            withdraw.getDate(),
+                            withdraw.getStatus(),
+                            withdraw.getUser().getAccountNumber()
+                    )
+            );
+        }
+
+        return withdrawDtos;
     }
 
     public WithdrawDto createWithdraw(CreateWithdrawDto newWithdraw) {
-        User user = userRepository.findCustomerByAccountNumber(newWithdraw.getAccountNumber(), true)
+        User customer = userRepository.findCustomerByAccountNumber(newWithdraw.getAccountNumber(), true)
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
 
-        user.setFund(user.getFund() - newWithdraw.getFund());
+        customer.setFund(customer.getFund() - newWithdraw.getFund());
 
-        if (newWithdraw.getFund() > 0 && user.getFund() >= 0) {
+        if (newWithdraw.getFund() > 0 && customer.getFund() >= 0) {
             Withdraw withdraw = new Withdraw(
                     newWithdraw.getFund(),
                     LocalDate.now(),
                     "Successfully",
-                    user
+                    customer
             );
 
             withdrawRepository.save(withdraw);
@@ -68,13 +88,13 @@ public class WithdrawService {
                     withdraw.getStatus(),
                     withdraw.getUser().getAccountNumber());
         } else {
-            user.setFund(user.getFund() + newWithdraw.getFund());
+            customer.setFund(customer.getFund() + newWithdraw.getFund());
 
             Withdraw withdraw = new Withdraw(
                     newWithdraw.getFund(),
                     LocalDate.now(),
                     "Failed",
-                    user
+                    customer
             );
 
             withdrawRepository.save(withdraw);

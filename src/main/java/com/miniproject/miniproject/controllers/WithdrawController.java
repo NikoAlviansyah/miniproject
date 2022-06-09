@@ -32,6 +32,16 @@ public class WithdrawController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("{userId}")
+    public ResponseEntity<RestResponse<List<WithdrawDto>>> getDepositHistoryByUserId(@PathVariable String userId){
+        return new ResponseEntity<>(
+                new RestResponse<>(
+                        service.getWithdrawHistoryByUserId(userId),
+                        "Successfully.",
+                        "200"),
+                HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<RestResponse<WithdrawDto>> createWithdraw(@RequestBody CreateWithdrawDto newWithdraw) {
         WithdrawDto withdrawDto = service.createWithdraw(newWithdraw);

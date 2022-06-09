@@ -27,12 +27,12 @@ public class TransferService {
     }
 
     public List<TransferDto> getAllTransferHistory() {
-        List<TransferDto> transferDtoList = new ArrayList<>();
+        List<TransferDto> transferDtos = new ArrayList<>();
 
-        List<Transfer> transferList = transferRepository.findAll();
+        List<Transfer> transfers = transferRepository.findAll();
 
-        for (Transfer transfer : transferList) {
-            transferDtoList.add(
+        for (Transfer transfer : transfers) {
+            transferDtos.add(
                     new TransferDto(
                             transfer.getTransferId(),
                             transfer.getFund(),
@@ -45,7 +45,51 @@ public class TransferService {
             );
         }
 
-        return transferDtoList;
+        return transferDtos;
+    }
+
+    public List<TransferDto> getTransferHistoryBySenderUserId(String userId) {
+        List<TransferDto> transferDtos = new ArrayList<>();
+
+        List<Transfer> transfers = transferRepository.getTransferHistoryBySenderUserId(userId);
+
+        for (Transfer transfer : transfers) {
+            transferDtos.add(
+                    new TransferDto(
+                            transfer.getTransferId(),
+                            transfer.getFund(),
+                            transfer.getNote() == null ? "-" : transfer.getNote(),
+                            transfer.getDate(),
+                            transfer.getStatus(),
+                            transfer.getSenderUser().getUserId(),
+                            transfer.getRecipientUser().getUserId()
+                    )
+            );
+        }
+
+        return transferDtos;
+    }
+
+    public List<TransferDto> getTransferHistoryByRecipientUserId(String userId) {
+        List<TransferDto> transferDtos = new ArrayList<>();
+
+        List<Transfer> transfers = transferRepository.getTransferHistoryByRecipientUserId(userId);
+
+        for (Transfer transfer : transfers) {
+            transferDtos.add(
+                    new TransferDto(
+                            transfer.getTransferId(),
+                            transfer.getFund(),
+                            transfer.getNote() == null ? "-" : transfer.getNote(),
+                            transfer.getDate(),
+                            transfer.getStatus(),
+                            transfer.getSenderUser().getUserId(),
+                            transfer.getRecipientUser().getUserId()
+                    )
+            );
+        }
+
+        return transferDtos;
     }
 
     public TransferDto createTransfer(CreateTransferDto newTransfer) {

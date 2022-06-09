@@ -27,12 +27,12 @@ public class DepositService {
     }
 
     public List<DepositDto> getAllDepositHistory() {
-        List<DepositDto> depositDtoList = new ArrayList<>();
+        List<DepositDto> depositDtos = new ArrayList<>();
 
-        List<Deposit> depositList = depositRepository.findAll();
+        List<Deposit> deposits = depositRepository.findAll();
 
-        for (Deposit deposit : depositList) {
-            depositDtoList.add(
+        for (Deposit deposit : deposits) {
+            depositDtos.add(
                     new DepositDto(
                             deposit.getDepositId(),
                             deposit.getFund(),
@@ -43,20 +43,40 @@ public class DepositService {
             );
         }
 
-        return depositDtoList;
+        return depositDtos;
+    }
+
+    public List<DepositDto> getDepositHistoryByUserId(String userId) {
+        List<DepositDto> depositDtos = new ArrayList<>();
+
+        List<Deposit> deposits = depositRepository.getDepositHistoryByUserId(userId);
+
+        for (Deposit deposit : deposits) {
+            depositDtos.add(
+                    new DepositDto(
+                            deposit.getDepositId(),
+                            deposit.getFund(),
+                            deposit.getDate(),
+                            "Successfully",
+                            deposit.getUser().getAccountNumber()
+                    )
+            );
+        }
+
+        return depositDtos;
     }
 
     public DepositDto createDeposit(CreateDepositDto newDeposit) {
-        User user = userRepository.findCustomerByAccountNumber(newDeposit.getAccountNumber(), true)
+        User customer = userRepository.findCustomerByAccountNumber(newDeposit.getAccountNumber(), true)
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found."));
 
-        user.setFund(user.getFund() + newDeposit.getFund());
+        customer.setFund(customer.getFund() + newDeposit.getFund());
 
         if (newDeposit.getFund() > 0) {
             Deposit deposit = new Deposit(
                     newDeposit.getFund(),
                     LocalDate.now(),
-                    user
+                    customer
             );
 
             depositRepository.save(deposit);
