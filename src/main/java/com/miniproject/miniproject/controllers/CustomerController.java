@@ -51,6 +51,16 @@ public class CustomerController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("/city/{city}")
+    public ResponseEntity<RestResponse<List<CustomerDto>>> getAllCustomerByCity(@PathVariable String city) {
+        return new ResponseEntity<>(
+                new RestResponse<>(
+                        service.getAllCustomerByCity(city),
+                        "Successfully.",
+                        "200"),
+                HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<RestResponse<CustomerDto>> createCustomer(@RequestBody CreateCustomerDto newCustomer) {
         return new ResponseEntity<>(

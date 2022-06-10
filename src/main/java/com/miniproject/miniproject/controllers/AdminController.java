@@ -31,11 +31,21 @@ public class AdminController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("{name}")
+    @GetMapping("name/{name}")
     public ResponseEntity<RestResponse<List<AdminDto>>> getAllAdminByName(@PathVariable String name) {
         return new ResponseEntity<>(
                 new RestResponse<>(
                         service.getAllAdminByName(name),
+                        "Successfully.",
+                        "200"),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("city/{city}")
+    public ResponseEntity<RestResponse<List<AdminDto>>> getAllAdminByCity(@PathVariable String city) {
+        return new ResponseEntity<>(
+                new RestResponse<>(
+                        service.getAllAdminByCity(city),
                         "Successfully.",
                         "200"),
                 HttpStatus.OK);

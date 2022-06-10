@@ -21,30 +21,27 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = """
             SELECT *
             FROM [User]
-            WHERE (FirstName = :name
+            WHERE (FirstName LIKE %:name%
             AND Role = :role
             AND IsActive = :isActive)
-            OR (LastName = :name
+            OR (LastName LIKE %:name%
             AND Role = :role
             AND IsActive = :isActive)
             """, nativeQuery = true)
-    List<User> getAllAdminByName(@Param("name") String name,
-                                 @Param("role") String role,
-                                 @Param("isActive") Boolean isActive);
+    List<User> getAllAdminOrCustomerByName(@Param("name") String name,
+                                           @Param("role") String role,
+                                           @Param("isActive") Boolean isActive);
 
     @Query(value = """
             SELECT *
             FROM [User]
-            WHERE (FirstName = :name
+            WHERE City LIKE %:city%
             AND Role = :role
-            AND IsActive = :isActive)
-            OR (LastName = :name
-            AND Role = :role
-            AND IsActive = :isActive)
+            AND IsActive = :isActive
             """, nativeQuery = true)
-    List<User> getAllCustomerByName(@Param("name") String name,
-                                    @Param("role") String role,
-                                    @Param("isActive") Boolean isActive);
+    List<User> getAllAdminOrCustomerByCity(@Param("city") String city,
+                                           @Param("role") String role,
+                                           @Param("isActive") Boolean isActive);
 
     @Query(value = """
             SELECT *

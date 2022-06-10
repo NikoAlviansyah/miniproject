@@ -60,7 +60,38 @@ public class AdminService {
     public List<AdminDto> getAllAdminByName(String name) {
         List<AdminDto> adminDtos = new ArrayList<>();
 
-        Stream<User> admins = userRepository.getAllAdminByName(name, "Admin", true).stream();
+        Stream<User> admins = userRepository.getAllAdminOrCustomerByName(name, "Admin", true).stream();
+
+        admins.forEach(
+                (admin) -> {
+                    adminDtos.add(
+                            new AdminDto(
+                                    admin.getUserId(),
+                                    admin.getRole(),
+                                    admin.getFirstName(),
+                                    admin.getLastName(),
+                                    admin.getBirthDate(),
+                                    admin.getGender(),
+                                    admin.getPhone(),
+                                    admin.getEmail(),
+                                    admin.getAddress(),
+                                    admin.getSubDistrict(),
+                                    admin.getDistrict(),
+                                    admin.getCity(),
+                                    admin.getProvince(),
+                                    admin.getZipCode()
+                            )
+                    );
+                }
+        );
+
+        return adminDtos;
+    }
+
+    public List<AdminDto> getAllAdminByCity(String city) {
+        List<AdminDto> adminDtos = new ArrayList<>();
+
+        Stream<User> admins = userRepository.getAllAdminOrCustomerByCity(city, "Admin", true).stream();
 
         admins.forEach(
                 (admin) -> {

@@ -62,7 +62,40 @@ public class CustomerService {
     public List<CustomerDto> getAllCustomerByName(String name) {
         List<CustomerDto> customerDtos = new ArrayList<>();
 
-        Stream<User> customers = userRepository.getAllCustomerByName(name, "Customer", true).stream();
+        Stream<User> customers = userRepository.getAllAdminOrCustomerByName(name, "Customer", true).stream();
+
+        customers.forEach(
+                (customer) -> {
+                    customerDtos.add(
+                            new CustomerDto(
+                                    customer.getUserId(),
+                                    customer.getRole(),
+                                    customer.getAccountNumber(),
+                                    customer.getFund(),
+                                    customer.getFirstName(),
+                                    customer.getLastName(),
+                                    customer.getBirthDate(),
+                                    customer.getGender(),
+                                    customer.getPhone(),
+                                    customer.getEmail(),
+                                    customer.getAddress(),
+                                    customer.getSubDistrict(),
+                                    customer.getDistrict(),
+                                    customer.getCity(),
+                                    customer.getProvince(),
+                                    customer.getZipCode()
+                            )
+                    );
+                }
+        );
+
+        return customerDtos;
+    }
+
+    public List<CustomerDto> getAllCustomerByCity(String city) {
+        List<CustomerDto> customerDtos = new ArrayList<>();
+
+        Stream<User> customers = userRepository.getAllAdminOrCustomerByCity(city, "Customer", true).stream();
 
         customers.forEach(
                 (customer) -> {
