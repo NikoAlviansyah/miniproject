@@ -31,6 +31,16 @@ public class AdminController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("{name}")
+    public ResponseEntity<RestResponse<List<AdminDto>>> getAllAdminByName(@PathVariable String name) {
+        return new ResponseEntity<>(
+                new RestResponse<>(
+                        service.getAllAdminByName(name),
+                        "Successfully.",
+                        "200"),
+                HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<RestResponse<AdminDto>> createAdmin(@RequestBody CreateAdminDto newAdmin) {
         return new ResponseEntity<>(

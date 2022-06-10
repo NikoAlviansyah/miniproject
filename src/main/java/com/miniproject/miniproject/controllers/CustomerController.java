@@ -31,6 +31,26 @@ public class CustomerController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<RestResponse<List<CustomerDto>>> getAllCustomerByName(@PathVariable String name) {
+        return new ResponseEntity<>(
+                new RestResponse<>(
+                        service.getAllCustomerByName(name),
+                        "Successfully.",
+                        "200"),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/account-number/{accountNumber}")
+    public ResponseEntity<RestResponse<CustomerDto>> getCustomerByAccountNumber(@PathVariable String accountNumber) {
+        return new ResponseEntity<>(
+                new RestResponse<>(
+                        service.getCustomerByAccountNumber(accountNumber),
+                        "Successfully.",
+                        "200"),
+                HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<RestResponse<CustomerDto>> createCustomer(@RequestBody CreateCustomerDto newCustomer) {
         return new ResponseEntity<>(

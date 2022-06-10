@@ -59,6 +59,65 @@ public class CustomerService {
         return customerDtos;
     }
 
+    public List<CustomerDto> getAllCustomerByName(String name) {
+        List<CustomerDto> customerDtos = new ArrayList<>();
+
+        Stream<User> customers = userRepository.getAllCustomerByName(name, "Customer", true).stream();
+
+        customers.forEach(
+                (customer) -> {
+                    customerDtos.add(
+                            new CustomerDto(
+                                    customer.getUserId(),
+                                    customer.getRole(),
+                                    customer.getAccountNumber(),
+                                    customer.getFund(),
+                                    customer.getFirstName(),
+                                    customer.getLastName(),
+                                    customer.getBirthDate(),
+                                    customer.getGender(),
+                                    customer.getPhone(),
+                                    customer.getEmail(),
+                                    customer.getAddress(),
+                                    customer.getSubDistrict(),
+                                    customer.getDistrict(),
+                                    customer.getCity(),
+                                    customer.getProvince(),
+                                    customer.getZipCode()
+                            )
+                    );
+                }
+        );
+
+        return customerDtos;
+    }
+
+    public CustomerDto getCustomerByAccountNumber(String accountNumber){
+        User customer = userRepository.findCustomerByAccountNumber(accountNumber, true)
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found."));
+
+        CustomerDto customerDto = new CustomerDto(
+                customer.getUserId(),
+                customer.getRole(),
+                customer.getAccountNumber(),
+                customer.getFund(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getBirthDate(),
+                customer.getGender(),
+                customer.getPhone(),
+                customer.getEmail(),
+                customer.getAddress(),
+                customer.getSubDistrict(),
+                customer.getDistrict(),
+                customer.getCity(),
+                customer.getProvince(),
+                customer.getZipCode()
+        );
+
+        return customerDto;
+    }
+
     public CustomerDto createCustomer(CreateCustomerDto newCustomer) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
