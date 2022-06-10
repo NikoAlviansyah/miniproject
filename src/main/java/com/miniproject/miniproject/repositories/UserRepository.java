@@ -46,6 +46,22 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = """
             SELECT *
             FROM [User]
+            WHERE UserId = :userId
+            AND IsActive = :isActive
+            """, nativeQuery = true)
+    Optional<User> getAdminOrCustomerByUserId(@Param("userId") String userId,
+                                              @Param("isActive") Boolean isActive);
+
+    @Query(value = """
+            SELECT *
+            FROM [User]
+            WHERE AccountNumber = :accountNumber
+            """, nativeQuery = true)
+    Optional<User> findCustomerByAccountNumberForNew(@Param("accountNumber") String accountNumber);
+
+    @Query(value = """
+            SELECT *
+            FROM [User]
             WHERE AccountNumber = :accountNumber
             AND IsActive = :isActive
             """, nativeQuery = true)

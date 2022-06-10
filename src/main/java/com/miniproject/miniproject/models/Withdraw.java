@@ -28,13 +28,13 @@ public class Withdraw {
     private LocalDate date;
 
     @Column(name = "Status")
-    private String status;
+    private Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "UserID")
     private User user;
 
-    public Withdraw(Long fund, LocalDate date, String status, User user) {
+    public Withdraw(Long fund, LocalDate date, Boolean status, User user) {
         this.fund = fund;
         this.date = date;
         this.status = status;

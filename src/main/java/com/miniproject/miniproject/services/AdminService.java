@@ -174,7 +174,7 @@ public class AdminService {
     }
 
     public AdminDto updateAdmin(UpdateAdminDto oldAdmin) {
-        User admin = userRepository.findById(oldAdmin.getUserId())
+        User admin = userRepository.getAdminOrCustomerByUserId(oldAdmin.getUserId(), true)
                 .orElseThrow(() -> new EntityNotFoundException("Admin not found."));
         admin.setPhone(oldAdmin.getPhone());
         admin.setEmail(oldAdmin.getEmail());

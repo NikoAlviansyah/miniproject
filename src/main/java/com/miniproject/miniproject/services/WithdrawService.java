@@ -39,7 +39,7 @@ public class WithdrawService {
                                     withdraw.getWithdrawId(),
                                     withdraw.getFund(),
                                     withdraw.getDate(),
-                                    withdraw.getStatus(),
+                                    withdraw.getStatus() ? "Successfully" : "Failed",
                                     withdraw.getUser().getAccountNumber()
                             )
                     );
@@ -61,7 +61,7 @@ public class WithdrawService {
                                     withdraw.getWithdrawId(),
                                     withdraw.getFund(),
                                     withdraw.getDate(),
-                                    withdraw.getStatus(),
+                                    withdraw.getStatus() ? "Successfully" : "Failed",
                                     withdraw.getUser().getAccountNumber()
                             )
                     );
@@ -81,7 +81,7 @@ public class WithdrawService {
             Withdraw withdraw = new Withdraw(
                     newWithdraw.getFund(),
                     LocalDate.now(),
-                    "Successfully",
+                    true,
                     customer
             );
 
@@ -90,7 +90,7 @@ public class WithdrawService {
             return new WithdrawDto(withdraw.getWithdrawId(),
                     withdraw.getFund(),
                     withdraw.getDate(),
-                    withdraw.getStatus(),
+                    withdraw.getStatus() ? "Successfully" : "Failed",
                     withdraw.getUser().getAccountNumber());
         } else {
             customer.setFund(customer.getFund() + newWithdraw.getFund());
@@ -98,7 +98,7 @@ public class WithdrawService {
             Withdraw withdraw = new Withdraw(
                     newWithdraw.getFund(),
                     LocalDate.now(),
-                    "Failed",
+                    false,
                     customer
             );
 
@@ -107,7 +107,7 @@ public class WithdrawService {
             return new WithdrawDto(withdraw.getWithdrawId(),
                     withdraw.getFund(),
                     withdraw.getDate(),
-                    withdraw.getStatus(),
+                    withdraw.getStatus() ? "Successfully" : "Failed",
                     withdraw.getUser().getAccountNumber());
         }
     }

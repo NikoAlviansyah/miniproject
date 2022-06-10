@@ -31,7 +31,7 @@ public class Transfer {
     private LocalDate date;
 
     @Column(name = "Status")
-    private String status;
+    private Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "SenderUserID")
@@ -41,7 +41,7 @@ public class Transfer {
     @JoinColumn(name = "RecipientUserID")
     private User recipientUser;
 
-    public Transfer(Long fund, String note, LocalDate date, String status, User senderUser, User recipientUser) {
+    public Transfer(Long fund, String note, LocalDate date, Boolean status, User senderUser, User recipientUser) {
         this.fund = fund;
         this.note = note;
         this.date = date;

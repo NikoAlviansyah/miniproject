@@ -185,7 +185,7 @@ public class CustomerService {
         String accountNumber = String.format("%s%s%s", getYear, str_getMonth, str_suffix);
 
         do {
-            if (userRepository.findCustomerByAccountNumber(accountNumber, true).isPresent()) {
+            if (userRepository.findCustomerByAccountNumberForNew(accountNumber).isPresent()) {
                 if (suffix < 10) {
                     str_suffix = String.format("000%s", suffix++);
                 } else if (suffix < 100) {
@@ -242,7 +242,7 @@ public class CustomerService {
     }
 
     public CustomerDto updateCustomer(UpdateCustomerDto oldCustomer) {
-        User customer = userRepository.findById(oldCustomer.getUserId())
+        User customer = userRepository.getAdminOrCustomerByUserId(oldCustomer.getUserId(), true)
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found."));
         customer.setPhone(oldCustomer.getPhone());
         customer.setEmail(oldCustomer.getEmail());

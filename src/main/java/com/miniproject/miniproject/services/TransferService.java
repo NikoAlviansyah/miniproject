@@ -40,7 +40,7 @@ public class TransferService {
                                     transfer.getFund(),
                                     transfer.getNote() == null ? "-" : transfer.getNote(),
                                     transfer.getDate(),
-                                    transfer.getStatus(),
+                                    transfer.getStatus() ? "Successfully" : "Failed",
                                     transfer.getSenderUser().getUserId(),
                                     transfer.getRecipientUser().getUserId()
                             )
@@ -64,7 +64,7 @@ public class TransferService {
                                     transfer.getFund(),
                                     transfer.getNote() == null ? "-" : transfer.getNote(),
                                     transfer.getDate(),
-                                    transfer.getStatus(),
+                                    transfer.getStatus() ? "Successfully" : "Failed",
                                     transfer.getSenderUser().getUserId(),
                                     transfer.getRecipientUser().getUserId()
                             )
@@ -88,7 +88,7 @@ public class TransferService {
                                     transfer.getFund(),
                                     transfer.getNote() == null ? "-" : transfer.getNote(),
                                     transfer.getDate(),
-                                    transfer.getStatus(),
+                                    transfer.getStatus() ? "Successfully" : "Failed",
                                     transfer.getSenderUser().getUserId(),
                                     transfer.getRecipientUser().getUserId()
                             )
@@ -118,7 +118,7 @@ public class TransferService {
                     newTransfer.getFund(),
                     newTransfer.getNote(),
                     LocalDate.now(),
-                    "Successfully",
+                    true,
                     senderCustomer,
                     recipientCustomer
             );
@@ -129,7 +129,7 @@ public class TransferService {
                     transfer.getFund(),
                     transfer.getNote() == null ? "" : transfer.getNote(),
                     transfer.getDate(),
-                    transfer.getStatus(),
+                    transfer.getStatus() ? "Successfully" : "Failed",
                     transfer.getSenderUser().getAccountNumber(),
                     transfer.getRecipientUser().getAccountNumber());
         } else {
@@ -140,7 +140,7 @@ public class TransferService {
                     newTransfer.getFund(),
                     newTransfer.getNote(),
                     LocalDate.now(),
-                    "Failed",
+                    false,
                     senderCustomer,
                     recipientCustomer
             );
@@ -151,7 +151,7 @@ public class TransferService {
                     transfer.getFund(),
                     transfer.getNote() == null ? "" : transfer.getNote(),
                     transfer.getDate(),
-                    transfer.getStatus(),
+                    transfer.getStatus() ? "Successfully" : "Failed",
                     transfer.getSenderUser().getAccountNumber(),
                     transfer.getRecipientUser().getAccountNumber());
         }
